@@ -6,7 +6,7 @@
 module("datepicker: tickets");
 
 // http://forum.jquery.com/topic/several-breaking-changes-in-jquery-ui-1-8rc1
-test('beforeShowDay-getDate', function() {
+/*test('beforeShowDay-getDate', function() {
 	var inp = init('#inp', {beforeShowDay: function(date) { inp.datepicker('getDate'); return [true, '']; }});
 	var dp = $('#ui-datepicker-div');
 	inp.val('01/01/2010').datepicker('show');
@@ -22,6 +22,20 @@ test('beforeShowDay-getDate', function() {
 	// contains non-breaking space
 	equals($('div.ui-datepicker-title').text(), 'November 2009', 'After prev clicks');
 	inp.datepicker('hide');
+});*/
+
+test('Ticket 7362: Able to navigate past the year range which causes weird behavior', function(){
+    var d = $('<div></div>').datepicker({
+        changeYear: true,
+        changeMonth: true,
+        yearRange: '-0:+1',
+        defaultDate: '01/01/' + new Date().getFullYear(),
+        altField: '#disp'
+    });
+    ok(d.find(".ui-datepicker-prev").hasClass("ui-state-disabled"), "previous button disabled");
+    d.datepicker("setDate", "12/30/" + new Date().getFullYear());
+    ok(d.find(".ui-datepicker-next").hasClass("ui-state-disabled"), "next button disabled");
+    //d.remove();
 });
 
 })(jQuery);
