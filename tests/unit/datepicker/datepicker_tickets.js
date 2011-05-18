@@ -35,7 +35,7 @@ test('Ticket 7362: Able to navigate past the year range which causes weird behav
     ok(d.find(".ui-datepicker-prev").hasClass("ui-state-disabled"), "previous button disabled");
     d.datepicker("setDate", "12/30/" + new Date().getFullYear());
     ok(d.find(".ui-datepicker-next").hasClass("ui-state-disabled"), "next button disabled");
-    //d.remove();
+    d.remove();
 });
 
 })(jQuery);
