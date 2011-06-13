@@ -29,11 +29,10 @@ test('Ticket 7362: Able to navigate past the year range which causes weird behav
         changeYear: true,
         changeMonth: true,
         yearRange: '-0:+1',
-        defaultDate: '01/01/' + new Date().getFullYear(),
-        altField: '#disp'
+        defaultDate: new Date(new Date().getFullYear(), 0, 1)
     });
     ok(d.find(".ui-datepicker-prev").hasClass("ui-state-disabled"), "previous button disabled");
-    d.datepicker("setDate", "12/30/" + new Date().getFullYear());
+    d.datepicker("setDate", new Date(new Date().getFullYear() + 1, 11, 30));
     ok(d.find(".ui-datepicker-next").hasClass("ui-state-disabled"), "next button disabled");
     d.remove();
 });
