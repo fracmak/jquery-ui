@@ -47,7 +47,9 @@ $.widget( "ui.autocomplete", {
 	_create: function() {
 		var self = this,
 			doc = this.element[ 0 ].ownerDocument,
-			suppressKeyPress;
+			form = $(this.element).closest("form"),
+			suppressKeyPress,
+			suppressFormSubmit;
 
 		this.valueMethod = this.element[ this.element.is( "input" ) ? "val" : "text" ];
 
@@ -96,6 +98,7 @@ $.widget( "ui.autocomplete", {
 						// #6055 - Opera still allows the keypress to occur
 						// which causes forms to submit
 						suppressKeyPress = true;
+						suppressFormSubmit = true;
 						event.preventDefault();
 					}
 					//passthrough - ENTER and TAB both select the current element
@@ -126,7 +129,7 @@ $.widget( "ui.autocomplete", {
 				if ( suppressKeyPress ) {
 					suppressKeyPress = false;
 					event.preventDefault();
-                    return;
+					return;
 				}
 
 				// replicate some key handlers to allow them to repeat in Firefox and Opera
@@ -148,7 +151,7 @@ $.widget( "ui.autocomplete", {
 					// prevent moving cursor to end of text field in some browsers
 					event.preventDefault();
 					break;
-                }
+				}
 			})
 			.bind( "focus.autocomplete", function() {
 				if ( self.options.disabled ) {
@@ -170,6 +173,17 @@ $.widget( "ui.autocomplete", {
 					self._change( event );
 				}, 150 );
 			});
+		
+		if ( form.length ) {
+			form.submit(function( event ) {
+				if ( suppressFormSubmit ) {
+					suppressFormSubmit = false;
+					event.preventDefault();
+					return false;
+				}
+			});
+		}
+		
 		this._initSource();
 		this.response = function() {
 			return self._response.apply( self, arguments );
