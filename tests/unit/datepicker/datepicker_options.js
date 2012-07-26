@@ -252,7 +252,6 @@ test('defaultDate', function() {
 });
 
 test('miscellaneous', function() {
-	var dp = $('#ui-datepicker-div');
 	var inp = init('#inp');
 	// Year range
 	var genRange = function(start, offset) {
@@ -264,6 +263,7 @@ test('miscellaneous', function() {
 	};
 	var curYear = new Date().getFullYear();
 	inp.val('02/04/2008').datepicker('show');
+	var dp = $('#ui-datepicker-div');
 	equals(dp.find('.ui-datepicker-year').text(), '2008', 'Year range - read-only default');
 	inp.datepicker('hide').datepicker('option', {changeYear: true}).datepicker('show');		
 	equals(dp.find('.ui-datepicker-year').text(), genRange(2008 - 10, 21), 'Year range - changeable default');
@@ -300,7 +300,7 @@ test('miscellaneous', function() {
 		longNames[date.getMonth()], 'Navigation current - as date format + pgdn');
 	equals(dp.find('.ui-datepicker-next').text(),
 		shortNames[3] + ' >', 'Navigation next - as date format + pgdn');
-	inp.datepicker('hide').datepicker('option', {gotoCurrent: true}).
+	inp.datepicker('hide').datepicker('option', {gotoCurrent: true, yearRange: '2007:2009'}).
 		val('02/04/2008').datepicker('show');
 	equals(dp.find('.ui-datepicker-prev').text(),
 		'< ' + shortNames[0], 'Navigation prev - as date format + goto current');

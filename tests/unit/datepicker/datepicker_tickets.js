@@ -24,4 +24,17 @@ test('beforeShowDay-getDate', function() {
 	inp.datepicker('hide');
 });
 
+test('Ticket 7362: Able to navigate past the year range which causes weird behavior', function(){
+    var d = $('<div></div>').datepicker({
+        changeYear: true,
+        changeMonth: true,
+        yearRange: '-0:+1',
+        defaultDate: new Date(new Date().getFullYear(), 0, 1)
+    });
+    ok(d.find(".ui-datepicker-prev").hasClass("ui-state-disabled"), "previous button disabled");
+    d.datepicker("setDate", new Date(new Date().getFullYear() + 1, 11, 30));
+    ok(d.find(".ui-datepicker-next").hasClass("ui-state-disabled"), "next button disabled");
+    d.remove();
+});
+
 })(jQuery);
